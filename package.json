@@ -1,0 +1,24 @@
+{
+  "name": "paul",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "guhurak",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "node --env-file=.env ./index.js",
+    "migrate": "node --env-file=.env ./app/db/migrations/create_survey_response_table.js"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.0.1",
+    "@fastify/view": "^10.0.1",
+    "axios": "^1.7.7",
+    "ejs": "^3.1.10",
+    "fastify": "^5.0.0",
+    "pg": "^8.13.0"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/pg": "^8.11.10"
+  }
+}
