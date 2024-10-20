@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "node --env-file=.env ./index.js",
-    "migrate": "node --env-file=.env ./app/db/migrations/create_survey_response_table.js"
+    "migrate": "node --env-file=.env ./app/db/migrate.js"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.1",
