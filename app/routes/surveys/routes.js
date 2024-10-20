@@ -9,6 +9,9 @@ class SurveysRoutes {
 
     server.addHook("onRequest", authMiddleware)
     server.get("/", surveys_controller.index)
+    server.get("/:survey_id", surveys_controller.show)
+    server.get("/new", surveys_controller.new)
+    server.post("/", surveys_controller.create)
 
     done()
   }

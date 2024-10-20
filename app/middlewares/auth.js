@@ -1,12 +1,13 @@
 import DiscordAuth from "../services/discord_auth.js"
 
 async function authMiddleware(request, response) {
-  console.log("Authenticated user")
   const discord_service = new DiscordAuth(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_CLIENT_SECRET)
 
-  let access_token = global.server.unsignCookie(request.cookies.access_token).value
+  if (request.cookies.access_token == undefined && request.cookies.refresh_token == undefined) {
+    return response.redirect("/auth/login")
+  }
 
-  if (global.server.unsignCookie(request.cookies.access_token).valid == false) {
+  if (request.cookies.access_token == undefined || global.server.unsignCookie(request.cookies.access_token).valid == false) {
     if (request.unsignCookie(request.cookies.refresh_token).valid == false) {
       return response.redirect("/auth/login")
     }
@@ -32,11 +33,7 @@ async function authMiddleware(request, response) {
       signed: true,
       secure: "auto"
     })
-
-    access_token = tokens.access_token
   }
-
-  console.log(await discord_service.fetch_user_id(access_token))
 }
 
 export default authMiddleware

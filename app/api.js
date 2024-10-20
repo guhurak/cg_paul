@@ -1,6 +1,7 @@
 import Fastify from "fastify"
 import fastifyView from "@fastify/view"
 import fastifyCookie from "@fastify/cookie"
+import formbody from "@fastify/formbody"
 import ejs from "ejs"
 
 import Router from "./routes/routes.js"
@@ -13,6 +14,7 @@ class Api {
       secret: process.env.COOKIE_SIGNING,
       algorithm: "sha256"
     })
+    global.server.register(formbody)
 
     this.#setRenderer()
 

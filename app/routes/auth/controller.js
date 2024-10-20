@@ -3,7 +3,10 @@ import DiscordAuth from "../../services/discord_auth.js"
 class AuthController {
   constructor() {}
 
-  login(_request, response) {
+  login(request, response) {
+    if (request.cookies.access_token != undefined) {
+      return response.redirect("/")
+    }
     return response.view("app/views/auth/login", { title: "Login" })
   }
 
@@ -41,7 +44,7 @@ class AuthController {
       secure: "auto"
     })
 
-    response.redirect("/")
+    return response.view("/app/views/auth/discord")
   }
 }
 
