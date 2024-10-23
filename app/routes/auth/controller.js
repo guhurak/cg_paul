@@ -1,4 +1,5 @@
 import DiscordAuth from "../../services/discord_auth.js"
+import DiscordApi from "../../services/discord_api.js"
 
 class AuthController {
   constructor() {}
@@ -13,6 +14,7 @@ class AuthController {
   logout(_request, response) {
     response.clearCookie("access_token")
     response.clearCookie("refresh_token")
+    response.clearCookie("roles")
 
     return response.redirect("/auth/login")
   }
@@ -33,6 +35,7 @@ class AuthController {
       signed: true,
       secure: "auto"
     })
+    request.access_token = tokens.access_token
 
     response.setCookie("refresh_token", tokens.refresh_token, {
       path: "/",
@@ -43,8 +46,24 @@ class AuthController {
       signed: true,
       secure: "auto"
     })
+    request.refresh_token = tokens.refresh_token
 
-    return response.view("/app/views/auth/discord")
+    const api = new DiscordApi(tokens.access_token)
+
+    const roles = await api.get_user_roles()
+
+    response.setCookie("roles", roles.toString(), {
+      path: "/",
+      domain: request.hostname,
+      expires: new Date(Date.now() + (tokens.expires_in * 1000)),
+      httpOnly: true,
+      sameSite: "strict",
+      signed: true,
+      secure: "auto"
+    })
+    request.roles = roles
+
+    return response.view("app/views/auth/discord")
   }
 }
 

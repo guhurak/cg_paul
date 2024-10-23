@@ -10,31 +10,24 @@ import Database from "./services/database.js"
 class Api {
   constructor() {
     global.server = Fastify({ logger: true })
+
     global.server.register(fastifyCookie, {
       secret: process.env.COOKIE_SIGNING,
       algorithm: "sha256"
     })
+
     global.server.register(formbody)
 
-    this.#setRenderer()
-
-    this.#setRoutes()
-
-    this.#initDB()
-  }
-
-  #setRenderer() {
     global.server.register(fastifyView, {
-      engine: {
-        ejs: ejs,
-      },
+      engine: { ejs },
+      layout: "app/views/layout.ejs"
     })
-  }
 
-  #setRoutes() {
     const router = new Router()
 
     global.server.register(router.loadRoutes)
+
+    this.#initDB()
   }
 
   async #initDB() {

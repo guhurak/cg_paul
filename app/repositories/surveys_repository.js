@@ -30,7 +30,11 @@ class SurveysRepository {
   }
 
   async create_survey(question) {
-    await this.database_client.query("INSERT INTO surveys(question) VALUES($1)", [question])
+    const response = await this.database_client.query("INSERT INTO surveys(question) VALUES($1)", [question])
+
+    const survey = new Survey(response.id, response.question)
+
+    return survey
   }
 }
 

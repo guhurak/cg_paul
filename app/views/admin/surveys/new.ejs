@@ -1,0 +1,25 @@
+<form method="post" action="/admin/surveys">
+  <div>
+    <label for="question">Question</label>
+    <input type="text" name="question" id="question"/>
+    <div id="response_list">
+    </div>
+    <div id="response_list_button">
+      Ajouter une réponse
+    </div>
+  </div>
+  <button type="submit">Créer</button>
+</form>
+
+<script>
+  const response_list_button = document.querySelector("#response_list_button")
+  const response_list = document.querySelector("#response_list")
+
+  response_list_button.addEventListener("click", function() {
+    response_list.innerHTML += `
+      <div>
+        <input type="text" name="response[]"/>
+      </div>
+    `
+  })
+</script>

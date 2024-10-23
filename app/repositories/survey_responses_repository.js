@@ -18,6 +18,16 @@ class SurveyResponseRepository {
 
     return survey_responses
   }
+
+  async create_responses_for_survey(survey_id, responses) {
+    const responses_payload = []
+
+    for(const response of responses) {
+      responses_payload.push([survey_id, response])
+    }
+
+    await this.database_client.query("INSERT INTO survey_responses(survey_id, response) VALUES($1)", [responses_payload])
+  }
 }
 
 export default SurveyResponseRepository
