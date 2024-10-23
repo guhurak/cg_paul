@@ -2,7 +2,14 @@
 <html lang="fr">
   <head></head>
   <body>
-    <%- body %>
+    <headers>
+      <h1>Paul</h1>
+      <p>L'application de la démocratie cégomosienne</p>
+    </headers>
+
+    <div id="app-container">
+      <%- body %>
+    </div>
   </body>
 
   <style type="text/css">
@@ -12,6 +19,24 @@
       background-color: #1e1e2e;
       color: #cdd6f4;
       font-family: "Roboto", serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    headers {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #app-container {
+      border: 1px solid #b4befe;
+      border-radius: 25px;
+      width: 75%;
+      padding: 15px;
     }
   </style>
 </html>
