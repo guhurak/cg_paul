@@ -1,10 +1,1 @@
 <h1><%= survey.question %></h1>
-
-<form method="post" action="/user_survey_response">
-  <% for(const survey_response of survey_responses) { %>
-    <input type="radio" id="<%= survey_response.response %>" name="survey_response" value="<%= survey_response.id %>"/>
-    <label for="<%= survey_response.response %>"><%= survey_response.response %></label>
-  <% } %>
-
-  <button type="submit">Voter</button>
-</form>

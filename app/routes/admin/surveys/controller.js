@@ -9,7 +9,7 @@ class SurveysController {
 
     const surveys = await surveys_repository.get_surveys()
 
-    return response.view("app/views/admin/surveys/index", { surveys: surveys, title: "Surveys" })
+    return response.view("admin/surveys/index", { surveys: surveys, title: "Surveys" })
   }
 
   async show(request, response) {
@@ -22,11 +22,11 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
-    return response.view("app/views/admin/surveys/show", { survey: survey, survey_responses: survey_responses, title: "Survey" })
+    return response.view("admin/surveys/show", { survey: survey, survey_responses: survey_responses, title: "Survey" })
   }
 
   async new(_request, response) {
-    return response.view("app/views/admin/surveys/new", { title: "New survey" })
+    return response.view("admin/surveys/new", { title: "New survey" })
   }
 
   async create(request, response) {
@@ -55,7 +55,7 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
-    return response.view("app/views/admin/surveys/edit", { survey: survey, survey_responses: survey_responses, title: "Survey" })
+    return response.view("admin/surveys/edit", { survey: survey, survey_responses: survey_responses, title: "Survey" })
   }
 }
 

@@ -19,8 +19,9 @@ class Api {
     global.server.register(formbody)
 
     global.server.register(fastifyView, {
-      engine: { ejs },
-      layout: "app/views/layout.ejs"
+      engine: { ejs: ejs },
+      root: "app/views",
+      layout: "layout.ejs"
     })
 
     const router = new Router()

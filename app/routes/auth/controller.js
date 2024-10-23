@@ -8,7 +8,7 @@ class AuthController {
     if (request.cookies.access_token != undefined) {
       return response.redirect("/")
     }
-    return response.view("app/views/auth/login", { title: "Login" })
+    return response.view("auth/login", { title: "Login" })
   }
 
   logout(_request, response) {
@@ -63,7 +63,7 @@ class AuthController {
     })
     request.roles = roles
 
-    return response.view("app/views/auth/discord")
+    return response.view("auth/discord")
   }
 }
 
