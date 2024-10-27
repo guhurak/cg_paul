@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head></head>
+  <head>
+    <title><%= title %></title>
+  </head>
   <body>
-    <headers>
+    <% if (current_url != "/auth/login") { %>
+      <headers>
+        <a href="/app/surveys">Sondages</a>
+        <a href="/admin/surveys">Administation</a>
+        <a href="/auth/logout">Déconnexion</a>
+      </headers>
+    <% } %>
+    <div id="headers">
       <h1>Paul</h1>
       <p>L'application de la démocratie cégomosienne</p>
       <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    </headers>
+    </div>
 
     <div id="app-container">
       <%- body %>
@@ -45,7 +54,7 @@
       box-sizing: border-box;
     }
 
-    headers {
+    #headers {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -53,7 +62,7 @@
       padding: 15px;
     }
 
-    headers p {
+    #headers p {
       color: #7f8497;
     }
 

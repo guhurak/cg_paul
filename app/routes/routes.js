@@ -3,6 +3,8 @@ import AppRoutes from "./app/routes.js"
 import AdminRoutes from "./admin/routes.js"
 import HomeController from "./controller.js"
 
+import current_url_middleware from "../middlewares/current_url.js"
+
 class Router {
   constructor() {}
 
@@ -12,6 +14,8 @@ class Router {
     const admin_routes = new AdminRoutes()
 
     const home_controller = new HomeController()
+
+    server.addHook("onRequest", current_url_middleware)
 
     server.register(auth_routes.load_routes, { prefix: "/auth" })
     server.register(app_routes.load_routes, { prefix: "/app" })

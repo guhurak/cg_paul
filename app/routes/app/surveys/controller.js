@@ -13,7 +13,7 @@ class SurveysController {
 
     const surveys = await surveys_repository.get_active_surveys()
 
-    return response.view("app/surveys/index.ejs", { surveys: surveys })
+    return response.view("app/surveys/index.ejs", { surveys: surveys, title: "Sondages" })
   }
 
   async show(request, response) {

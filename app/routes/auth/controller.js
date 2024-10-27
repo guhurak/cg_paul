@@ -8,6 +8,8 @@ class AuthController {
     if (request.cookies.access_token != undefined) {
       return response.redirect("/")
     }
+
+    console.log(response.locals)
     return response.view("auth/login", { title: "Login" })
   }
 
@@ -76,7 +78,7 @@ class AuthController {
     })
     request.user_id = user_id
 
-    return response.view("auth/discord")
+    return response.view("auth/discord", { title: "Connecté" })
   }
 }
 
