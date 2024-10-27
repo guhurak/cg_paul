@@ -23,7 +23,7 @@ class SurveysController {
 
     const survey = await surveys_repository.get_survey(survey_id)
 
-    const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
+    const survey_responses = await survey_responses_repository.get_from_survey_with_votes(survey.id)
 
     return response.view("admin/surveys/show", { survey: survey, survey_responses: survey_responses, title: "Survey" })
   }

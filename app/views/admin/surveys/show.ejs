@@ -1,1 +1,26 @@
 <h1><%= survey.question %></h1>
+
+<div class="button-list">
+  <a href="/admin/surveys/<%= survey.id %>/edit">Modifier</a>
+  <a href="/admin/surveys/<%= survey.id %>/proxy">Faire une procuration</a>
+</div>
+
+<table>
+  <tr>
+    <th>Réponse</th>
+    <th>Nombre de votes</th>
+  </tr>
+
+  <% for(const survey_response of survey_responses) { %>
+    <tr>
+      <td><%= survey_response.response %></td>
+      <td><%= survey_response.votes_count %></td>
+    </tr>
+  <% } %>
+</table>
+
+<style type="text/css">
+  .button-list {
+    padding: 10px;
+  }
+</style>

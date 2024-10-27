@@ -1,6 +1,7 @@
 import pg_format from "pg-format"
 
 import SurveyResponse from "../models/survey_response.js"
+import ResultSurveyResponse from "../models/result_survey_response.js"
 
 class SurveyResponseRepository {
   constructor(database_client) {
@@ -14,6 +15,20 @@ class SurveyResponseRepository {
 
     for(const row of response.rows) {
       const survey_response = new SurveyResponse(row.id, row.survey_id, row.response)
+
+      survey_responses.push(survey_response)
+    }
+
+    return survey_responses
+  }
+
+  async get_from_survey_with_votes(survey_id) {
+    const response = await this.database_client.query("SELECT sr.id, sr.survey_id, sr.response, COUNT(v.id) AS votes_count FROM survey_responses AS sr LEFT JOIN votes AS v ON v.survey_response_id = sr.id WHERE sr.survey_id = $1 GROUP BY sr.id", [survey_id])
+
+    let survey_responses = []
+
+    for(const row of response.rows) {
+      const survey_response = new ResultSurveyResponse(row.id, row.survey_id, row.response, row.votes_count)
 
       survey_responses.push(survey_response)
     }
