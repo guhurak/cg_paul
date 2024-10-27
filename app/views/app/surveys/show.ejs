@@ -31,7 +31,7 @@
       }).then(function(response) {
         switch (response.status) {
           case 201:
-            window.location.href.replace(`/app/surveys/${survey_id}`)
+            window.location.replace(`/app/surveys/${survey_id}`)
             break;
           case 422:
             break;

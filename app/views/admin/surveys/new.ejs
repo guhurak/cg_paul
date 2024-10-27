@@ -1,6 +1,6 @@
 <h1>Créer un sondage</h1>
 
-<form method="post" action="/admin/surveys">
+<form id="survey-creation">
   <div>
     <div class="form-container">
       <label for="question">Question :</label>
@@ -18,7 +18,7 @@
     <div id="response-list" class="form-container">
     </div>
   </div>
-  <button type="submit">Créer</button>
+  <button type="submit" class="fake-link">Créer</button>
 </form>
 
 <script>
@@ -28,6 +28,42 @@
     const response_list = document.querySelector("#response-list")
 
     response_list.insertAdjacentHTML("beforeend", "<div><input type=\"text\" name=\"responses[]\"/></div>")
+  })
+
+  const form = document.querySelector("#survey-creation")
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault()
+
+    const question = document.querySelector("#question").value
+    const response_nodes = document.querySelectorAll("input[name='responses[]']")
+
+    let responses = []
+
+    for(const response_node of response_nodes) {
+      const value = response_node.value
+
+      if (value != "") {
+        responses.push(value)
+      }
+    }
+
+    axios({
+      method: "post",
+      url: "/admin/surveys",
+      data: {
+        question: question,
+        responses: responses
+      }
+    }).then(function(response) {
+      switch(response.status) {
+        case 201:
+          window.location.replace(`/admin/surveys/${response.data.id}`)
+          break;
+        default:
+          console.log(`error: ${response.data}`)
+      }
+    })
   })
 </script>
 

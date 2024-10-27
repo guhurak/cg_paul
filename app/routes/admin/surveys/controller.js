@@ -38,18 +38,10 @@ class SurveysController {
 
     const survey = await surveys_repository.create_survey(request.body.question)
 
-    if (request.body["responses[]"] != undefined) {
-      let responses
-      if (typeof(request.body["responses[]"]) == "string") {
-        responses = [request.body["responses[]"]]
-      } else {
-        responses = request.body["responses[]"]
-      }
+    await survey_responses_repository.create_responses_for_survey(survey.id, request.body.responses)
 
-      await survey_responses_repository.create_responses_for_survey(survey.id, responses)
-    }
-
-    return response.redirect("/surveys", 201)
+    response.statusCode = 201
+    return response.send({ id: survey.id })
   }
 
   async edit(request, response) {
@@ -78,16 +70,23 @@ class SurveysController {
     let responses = []
     if (request.body["responses[]"] != undefined) {
       if (typeof(request.body["responses[]"]) == "string") {
-        responses = [request.body["responses[]"]]
+        if (request.body["responses[]"] != "") {
+          responses.push(request.body["responses[]"])
+        }
       } else {
-        responses = request.body["responses[]"]
+        for(const response of request.body["responses[]"]) {
+          if (response != "") {
+            responses.push(response)
+          }
+        }
       }
     }
 
     await surveys_repository.update_survey(survey.id, request.body.question)
     await survey_responses_repository.update_responses_for_survey(survey.id, survey_responses, responses)
 
-    return response.view(`admin/surveys/${survey.id}`)
+    response.statusCode(204)
+    return response.send()
   }
 }
 

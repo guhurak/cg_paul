@@ -1,6 +1,6 @@
 <h1>Modifier un sondage</h1>
 
-<form method="patch" action="/admin/surveys/<%= survey.id %>">
+<form>
   <div>
     <div class="form-container">
       <label for="question">Question :</label>
@@ -21,16 +21,53 @@
       <% } %>
     </div>
   </div>
-  <button type="submit">Créer</button>
+  <button type="submit" class="fake-link">Mettre à jour</button>
 </form>
 
 <script>
-  const response_list_button = document.querySelector("#response-list-button")
+  const survey_id = <%= survey.id %>
 
+  const response_list_button = document.querySelector("#response-list-button")
   response_list_button.addEventListener("click", function() {
     const response_list = document.querySelector("#response-list")
 
     response_list.insertAdjacentHTML("beforeend", "<div><input type=\"text\" name=\"responses[]\"/></div>")
+  })
+
+  const form = document.querySelector("#survey-creation")
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault()
+
+    const question = document.querySelector("#question").value
+    const response_nodes = document.querySelectorAll("input[name='responses[]']")
+
+    let responses = []
+
+    for(const response_node of response_nodes) {
+      const value = response_node.value
+
+      if (value != "") {
+        responses.push(value)
+      }
+    }
+
+    axios({
+      method: "patch",
+      url: "/admin/surveys",
+      data: {
+        question: question,
+        responses: responses
+      }
+    }).then(function(response) {
+      switch(response.status) {
+        case 201:
+          window.location.replace(`/admin/surveys/${survey_id}`)
+          break;
+        default:
+          console.log(`error: ${response.data}`)
+      }
+    })
   })
 </script>
 
