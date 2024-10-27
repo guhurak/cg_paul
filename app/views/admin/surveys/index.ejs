@@ -8,9 +8,14 @@
   <% for(const survey of surveys) { %>
     <tr>
       <td><%= survey.question %></td>
+
       <td>
         <a href="/admin/surveys/<%= survey.id %>">Voir</a>
         <a href="/admin/surveys/<%= survey.id %>/edit">Modifier</a>
+      </td>
+
+      <td>
+        <button class="fake-link" onclick="toggle(<%= survey.id %>)"><%= survey.active ? "Désactiver" : "Activer" %></button>
       </td>
     </tr>
   <% } %>
@@ -21,3 +26,20 @@
     padding: 20px;
   }
 </style>
+
+<script>
+  function toggle(survey_id) {
+    axios({
+      method: "patch",
+      url: `/admin/surveys/${survey_id}/toggle`
+    }).then(function(response) {
+      switch (response.status) {
+        case 204:
+          window.location.replace("/admin/surveys")
+          break;
+        default:
+          console.log(`error: ${response.data}`)
+      }
+    })
+  }
+</script>

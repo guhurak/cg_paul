@@ -61,7 +61,7 @@
       }
     }).then(function(response) {
       switch(response.status) {
-        case 201:
+        case 204:
           window.location.replace(`/admin/surveys/${survey_id}`)
           break;
         default:

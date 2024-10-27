@@ -13,6 +13,7 @@ class SurveysRoutes {
     server.post("/", surveys_controller.create)
     server.get("/:survey_id/proxy", surveys_controller.proxy)
     server.post("/:survey_id/make_proxy", surveys_controller.make_proxy)
+    server.patch("/:survey_id/toggle", surveys_controller.toggle)
 
     done()
   }

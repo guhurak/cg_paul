@@ -123,6 +123,16 @@ class SurveysController {
 
     return response.send()
   }
+
+  async toggle(request, response) {
+    const surveys_repository = new SurveysRepository(global.database_client)
+
+    await surveys_repository.toggle(request.params.survey_id)
+
+    response.statusCode = 204
+
+    return response.send()
+  }
 }
 
 export default SurveysController

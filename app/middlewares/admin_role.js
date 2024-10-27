@@ -8,7 +8,7 @@ async function admin_role_middleware(request, response) {
   }
 
   if (!roles.includes(process.env.CEGOMOS_CONSEILLE_ROLE)) {
-    response.view("public/unauthorized")
+    response.view("public/unauthorized", { title: "Unauthorized" })
   }
 }
 
