@@ -1,8 +1,19 @@
 <h1><%= survey.question %></h1>
 
-<p>Attention, vous ne pouvez voter qu'une seule fois et vous ne pourrez pas modifier votre vote</p>
+<div class="text">
+  <p>Attention ! Ceci est la page pour faire une procuration. Ceci doit être fait seulement avec la demande et l'accord du mandataire.</p>
+  <br/>
+  <p>La procuration empêchera le mandataire de faire un vote ensuite à son tour grâce à l'identifiant</p>
+  <br/>
+  <p>Afin de récupérer l'identifiant nécessaire, faire un clique droit sur le mandataire sur discord, puis cliquer sur "Copier l'identifiant de l'utilisateur". Coller cet identifiant dans le champ "Identifiant"</p>
+</div>
 
 <form id="vote-form">
+  <div class="form-container">
+    <label for="user_id">Identifiant</label>
+    <input type="text" name="user_id" id="user_id"/>
+  </div>
+
   <div class="vote-form-container">
     <% for(const survey_response of survey_responses) { %>
       <div class="form-container">
@@ -64,14 +75,15 @@
     if (vote != undefined) {
       axios({
         method: "post",
-        url: `/app/surveys/${survey_id}/vote`,
+        url: `/admin/surveys/${survey_id}/make_proxy`,
         data: {
-          vote: vote.value
+          vote: vote.value,
+          user_id: document.querySelector("input[name='user_id']").value
         }
       }).then(function(response) {
         switch (response.status) {
           case 201:
-            window.location.replace(`/app/surveys/${survey_id}`)
+            window.location.replace(`/admin/surveys/${survey_id}`)
             break;
           case 422:
             break;

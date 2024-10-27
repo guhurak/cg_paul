@@ -72,7 +72,7 @@ class SurveysController {
 
     response.statusCode = 201
 
-    return response
+    return response.send()
   }
 }
 

@@ -1,5 +1,8 @@
 import SurveysRepository from "../../../repositories/surveys_repository.js"
 import SurveyResponseRepository from "../../../repositories/survey_responses_repository.js"
+import VotesRepository from "../../../repositories/votes_repository.js"
+import SurveyParticipationsRepository from "../../../repositories/survey_participations_repository.js"
+
 
 class SurveysController {
   constructor() {
@@ -12,7 +15,7 @@ class SurveysController {
 
     const surveys = await surveys_repository.get_surveys()
 
-    return response.view("admin/surveys/index", { surveys: surveys, title: "Surveys" })
+    return response.view("admin/surveys/index", { surveys: surveys, title: "Sondages" })
   }
 
   async show(request, response) {
@@ -25,11 +28,11 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey_with_votes(survey.id)
 
-    return response.view("admin/surveys/show", { survey: survey, survey_responses: survey_responses, title: "Survey" })
+    return response.view("admin/surveys/show", { survey: survey, survey_responses: survey_responses, title: survey.question })
   }
 
   async new(_request, response) {
-    return response.view("admin/surveys/new", { title: "New survey" })
+    return response.view("admin/surveys/new", { title: "Nouveau sondage" })
   }
 
   async create(request, response) {
@@ -54,16 +57,14 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
-    return response.view("admin/surveys/edit", { survey: survey, survey_responses: survey_responses, title: "Survey" })
+    return response.view("admin/surveys/edit", { survey: survey, survey_responses: survey_responses, title: survey.question })
   }
 
   async update(request, response) {
     const surveys_repository = new SurveysRepository(global.database_client)
     const survey_responses_repository = new SurveyResponseRepository(global.database_client)
 
-    const survey_id = request.params.survey_id
-
-    const survey = await surveys_repository.get_survey(survey_id)
+    const survey = await surveys_repository.get_survey(request.params.survey_id)
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
@@ -86,6 +87,40 @@ class SurveysController {
     await survey_responses_repository.update_responses_for_survey(survey.id, survey_responses, responses)
 
     response.statusCode(204)
+    return response.send()
+  }
+
+  async proxy(request, response) {
+    const surveys_repository = new SurveysRepository(global.database_client)
+    const survey_responses_repository = new SurveyResponseRepository(global.database_client)
+
+    const survey = await surveys_repository.get_survey(request.params.survey_id)
+
+    const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
+
+    return response.view("admin/surveys/proxy", { survey: survey, survey_responses: survey_responses, title: "Procuration" })
+  }
+
+  async make_proxy(request, response) {
+    const votes_repository = new VotesRepository(global.database_client)
+    const survey_participations_repository = new SurveyParticipationsRepository(global.database_client)
+
+    const user_id = request.body.user_id
+    const survey_id = request.params.survey_id
+
+    const already_voted = await survey_participations_repository.already_voted_survey(user_id, survey_id)
+
+    if (already_voted) {
+      response.statusCode = 422
+
+      return response.send({ error: "Survey already voted" })
+    }
+
+    await votes_repository.create(survey_id, request.body.vote)
+    await survey_participations_repository.create_for_survey(user_id, survey_id)
+
+    response.statusCode = 201
+
     return response.send()
   }
 }

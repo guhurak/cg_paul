@@ -11,6 +11,8 @@ class SurveysRoutes {
     server.get("/:survey_id/edit", surveys_controller.edit)
     server.get("/new", surveys_controller.new)
     server.post("/", surveys_controller.create)
+    server.get("/:survey_id/proxy", surveys_controller.proxy)
+    server.post("/:survey_id/make_proxy", surveys_controller.make_proxy)
 
     done()
   }
