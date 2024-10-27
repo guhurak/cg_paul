@@ -2,18 +2,24 @@
 
 <p>Attention, vous ne pouvez voter qu'une seule fois et vous ne pourrez pas modifier votre vote</p>
 
-<form id="vote-form">
-  <div class="vote-form-container">
-    <% for(const survey_response of survey_responses) { %>
+<% if (already_voted) { %>
+  <div class="already-voted-container">
+    <p>Votre vote a bien été pris en compte, merci pour votre participation, elle est essentielle à la démocration cégomosienne</p>
+  </div>
+<% } else { %>
+  <form id="vote-form">
+    <div class="vote-form-container">
+      <% for(const survey_response of survey_responses) { %>
       <div class="form-container">
         <input type="radio" name="vote" value="<%= survey_response.id %>"/>
         <label for="vote"><%= survey_response.response %></label>
       </div>
-    <% } %>
-  </div>
+      <% } %>
+    </div>
 
-  <button type="submit" class="fake-link">Voter</button>
-</form>
+    <button type="submit" class="fake-link">Voter</button>
+  </form>
+<% } %>
 
 <style type="text/css">
   form {
@@ -49,6 +55,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+
+  .already-voted-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   }
 </style>
 

@@ -19,6 +19,10 @@ class SurveysController {
   async show(request, response) {
     const surveys_repository = new SurveysRepository(global.database_client)
     const survey_responses_repository = new SurveyResponseRepository(global.database_client)
+    const survey_participations_repository = new SurveyParticipationsRepository(global.database_client)
+
+    const access_token = global.server.unsignCookie(request.cookies.access_token).value
+    const discord_api = new DiscordApi(access_token)
 
     const survey = await surveys_repository.get_active_survey(request.params.survey_id)
 
@@ -30,7 +34,10 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
-    return response.view("app/surveys/show.ejs", { survey: survey, survey_responses: survey_responses })
+    const user_id = await discord_api.get_user_id()
+    const already_voted = await survey_participations_repository.already_voted_survey(user_id, survey.id)
+
+    return response.view("app/surveys/show.ejs", { survey: survey, survey_responses: survey_responses, already_voted: already_voted, title: survey.question })
   }
 
   async vote(request, response) {
