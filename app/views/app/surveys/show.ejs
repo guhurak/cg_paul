@@ -1,0 +1,46 @@
+<h1><%= survey.question %></h1>
+
+<p>Attention, vous ne pouvez voter qu'une seule fois et vous ne pourrez pas modifier votre vote</p>
+
+<form id="vote-form">
+  <div>
+    <% for(const survey_response of survey_responses) { %>
+      <input type="radio" name="vote" value="<%= survey_response.id %>"><%= survey_response.response %></input>
+    <% } %>
+  </div>
+
+  <button type="submit">Voter</button>
+</form>
+
+<script>
+  const survey_id = <%= survey.id %>
+  const form = document.querySelector("#vote-form")
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault()
+
+    const vote = document.querySelector("input[name='vote']:checked")
+
+    if (vote != undefined) {
+      axios({
+        method: "post",
+        url: `/app/surveys/${survey_id}/vote`,
+        data: {
+          vote: vote.value
+        }
+      }).then(function(response) {
+        switch (response.status) {
+          case 201:
+            window.location.href.replace(`/app/surveys/${survey_id}`)
+            break;
+          case 422:
+            break;
+          case 404:
+            break;
+          default:
+            console.log(`error: ${response.data}`)
+        }
+      })
+    }
+  })
+</script>

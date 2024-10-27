@@ -1,16 +1,11 @@
 <h1>Liste des sondage</h1>
 
-<div id="new-link">
-  <a href="/admin/surveys/new">Créer un nouveau sondage</a>
-</div>
-
 <table>
   <% for(const survey of surveys) { %>
     <tr>
       <td><%= survey.question %></td>
       <td>
-        <a href="/admin/surveys/<%= survey.id %>">Voir</a>
-        <a href="/admin/surveys/<%= survey.id %>/edit">Modifier</a>
+        <a href="/app/surveys/<%= survey.id %>">Voir</a>
       </td>
     </tr>
   <% } %>
@@ -29,9 +24,5 @@
     padding: 10px;
     text-align: center;
     border-bottom: 1px solid #ddd;
-  }
-
-  #new-link {
-    padding: 20px;
   }
 </style>

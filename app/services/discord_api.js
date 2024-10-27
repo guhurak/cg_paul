@@ -21,6 +21,20 @@ class DiscordApi {
 
     return response.data.roles
   }
+
+  async get_user_id() {
+    const headers = {
+      "Authorization": `Bearer ${this.access_token}`
+    }
+
+    const response = await axios({
+      method: "get",
+      url: `${this.#api_endpoint}/users/@me`,
+      headers: headers
+    })
+
+    return response.data.id
+  }
 }
 
 export default DiscordApi

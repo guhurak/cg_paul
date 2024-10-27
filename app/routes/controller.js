@@ -2,7 +2,7 @@ class HomeController {
   constructor() {}
 
   index(_request, response) {
-    return response.redirect("/app")
+    return response.redirect("/app/surveys")
   }
 }
 

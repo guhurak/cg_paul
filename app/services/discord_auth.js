@@ -68,20 +68,6 @@ class DiscordAuth {
       expires_in: response.data.expires_in
     }
   }
-
-  async fetch_user_id(access_token) {
-    const headers = {
-      "Authorization": `Bearer ${access_token}`
-    }
-
-    const response = await axios({
-      method: "get",
-      url: `${this.#api_endpoint}/users/@me`,
-      headers: headers
-    })
-
-    return response.data.id
-  }
 }
 
 export default DiscordAuth

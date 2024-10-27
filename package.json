@@ -17,11 +17,13 @@
     "axios": "^1.7.7",
     "ejs": "^3.1.10",
     "fastify": "^5.0.0",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5",
     "@types/pg": "^8.11.10",
+    "@types/pg-format": "^1.0.5",
     "nodemon": "^3.1.7"
   }
 }

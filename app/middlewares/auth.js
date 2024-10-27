@@ -75,6 +75,32 @@ async function auth_middleware(request, response) {
     })
     request.roles = fresh_roles
   }
+
+  let user_id
+
+  if (request.cookies.user_id != undefined && global.server.unsignCookie(request.cookies.user_id).valid) {
+    user_id = global.server.unsignCookie(request.cookies.user_id).value
+  } else if (request.user_id != undefined) {
+    user_id = request.user_id
+  }
+
+  if (user_id == undefined || access_token == undefined || refresh_token == undefined) {
+    const token = access_token == undefined ? request.access_token : access_token
+    const api = new DiscordApi(token)
+
+    const fresh_user_id = await api.get_user_id()
+
+    response.setCookie("user_id", fresh_user_id.toString(), {
+      path: "/",
+      domain: request.hostname,
+      expires: new Date(Date.now() + (7 * 24 * 3600 * 1000)),
+      httpOnly: true,
+      sameSite: "strict",
+      signed: true,
+      secure: "auto"
+    })
+    request.user_id = fresh_user_id
+  }
 }
 
 export default auth_middleware

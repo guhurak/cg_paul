@@ -1,0 +1,70 @@
+<h1>Modifier un sondage</h1>
+
+<form method="patch" action="/admin/surveys/<%= survey.id %>">
+  <div>
+    <div class="form-container">
+      <label for="question">Question :</label>
+      <div>
+        <input type="text" name="question" id="question" value="<%= survey.question %>"/>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <label for="responses[]">Réponses :</label>
+      <div id="response-list-button" class="fake-link">
+        Ajouter une réponse
+      </div>
+    </div>
+    <div id="response-list" class="form-container">
+      <% for(const survey_response of survey_responses) { %>
+        <div><input type="text" name="responses[]" value="<%= survey_response.response %>"/></div>
+      <% } %>
+    </div>
+  </div>
+  <button type="submit">Créer</button>
+</form>
+
+<script>
+  const response_list_button = document.querySelector("#response-list-button")
+
+  response_list_button.addEventListener("click", function() {
+    const response_list = document.querySelector("#response-list")
+
+    response_list.insertAdjacentHTML("beforeend", "<div><input type=\"text\" name=\"responses[]\"/></div>")
+  })
+</script>
+
+<style type="text/css">
+  form {
+    height: 100%;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form-container {
+    display: flex;
+    padding: 5px;
+  }
+  .form-container input, .form-container label {
+    padding: 5px;
+  }
+  .form-container input {
+    background-color: #282b30;
+    border-radius: 5px;
+    color: #ffffff;
+  }
+
+  #response-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #response-list div {
+    padding: 5px;
+  }
+</style>

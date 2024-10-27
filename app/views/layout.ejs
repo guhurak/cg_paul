@@ -5,6 +5,7 @@
     <headers>
       <h1>Paul</h1>
       <p>L'application de la démocratie cégomosienne</p>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </headers>
 
     <div id="app-container">
@@ -15,14 +16,33 @@
   <style type="text/css">
     @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+    a, abbr, acronym, address, applet, big, blockquote, body, button, caption, cite, code, dd, del, dfn, div, dl, dt, em, fieldset, form, h1, h2, h3, h4, h5, h6, html, iframe, img, input, ins, kbd, label, legend, li, object, ol, p, pre, q, s, samp, small, span, strike, strong, sub, sup, table, tbody, td, tfoot, th, thead, tr, tt, ul, var {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: 0;
+      font-weight: inherit;
+      font-style: inherit;
+      font-family: inherit;
+      vertical-align: baseline;
+    }
+
+    html {
+      height: 100%;
+    }
+
     body {
-      background-color: #1e1e2e;
-      color: #cdd6f4;
+      background-color: #424549;
+      color: #ffffff;
       font-family: "Roboto", serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      height: 100%;
+      margin: 0;
+      padding: 35px;
+      box-sizing: border-box;
     }
 
     headers {
@@ -30,13 +50,44 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: 15px;
+    }
+
+    headers p {
+      color: #7f8497;
     }
 
     #app-container {
-      border: 1px solid #b4befe;
-      border-radius: 25px;
+      background-color: #36393e;
+      border-radius: 5px;
       width: 75%;
       padding: 15px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: auto;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #5865f2;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    a:visited {
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .fake-link {
+      text-decoration: none;
+      color: #ffffff;
+      background-color: #5865f2;
+      padding: 5px;
+      border-radius: 5px;
     }
   </style>
 </html>

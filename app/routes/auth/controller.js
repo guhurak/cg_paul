@@ -63,6 +63,19 @@ class AuthController {
     })
     request.roles = roles
 
+    const user_id = await api.get_user_id()
+
+    response.setCookie("user_id", user_id.toString(), {
+      path: "/",
+      domain: request.hostname,
+      expires: new Date(Date.now() + (7 * 24 * 3600 * 1000)),
+      httpOnly: true,
+      sameSite: "strict",
+      signed: true,
+      secure: "auto"
+    })
+    request.user_id = user_id
+
     return response.view("auth/discord")
   }
 }
