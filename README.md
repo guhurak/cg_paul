@@ -9,7 +9,7 @@
 Launch database:
 
 ```
-docker compose up -d
+docker compose up -d database
 ```
 
 Run migration:
