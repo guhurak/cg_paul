@@ -1,6 +1,6 @@
 <h1>Modifier un sondage</h1>
 
-<form>
+<form id="survey-creation">
   <div>
     <div class="form-container">
       <label for="question">Question :</label>
@@ -54,7 +54,7 @@
 
     axios({
       method: "patch",
-      url: "/admin/surveys",
+      url: `/admin/surveys/${survey_id}`,
       data: {
         question: question,
         responses: responses

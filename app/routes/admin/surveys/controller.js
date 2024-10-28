@@ -68,25 +68,10 @@ class SurveysController {
 
     const survey_responses = await survey_responses_repository.get_from_survey(survey.id)
 
-    let responses = []
-    if (request.body["responses[]"] != undefined) {
-      if (typeof(request.body["responses[]"]) == "string") {
-        if (request.body["responses[]"] != "") {
-          responses.push(request.body["responses[]"])
-        }
-      } else {
-        for(const response of request.body["responses[]"]) {
-          if (response != "") {
-            responses.push(response)
-          }
-        }
-      }
-    }
-
     await surveys_repository.update_survey(survey.id, request.body.question)
-    await survey_responses_repository.update_responses_for_survey(survey.id, survey_responses, responses)
+    await survey_responses_repository.update_responses_for_survey(survey.id, survey_responses, request.body.responses)
 
-    response.statusCode(204)
+    response.statusCode = 204
     return response.send()
   }
 

@@ -42,7 +42,7 @@ class Api {
   start(address, port) {
     console.log(`Start Paul on ${address}:${port}`)
 
-    global.server.listen({ address: address, port: port }, function(err, address) {
+    global.server.listen({ host: address, port: port }, function(err, address) {
       if (err) {
         self.server.log(err)
         process.exit(1)

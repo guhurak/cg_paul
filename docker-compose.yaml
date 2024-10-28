@@ -9,6 +9,16 @@ services:
       POSTGRES_DB: paul
     ports:
       - 0.0.0.0:5432:5432
+  server:
+    image: node:23-alpine
+    volumes:
+      - .:/home/node/app
+    working_dir: /home/node/app
+    command: yarn start
+    ports:
+      - 0.0.0.0:3000:3000
+    depends_on:
+      - database
 
 volumes:
   database_storage:

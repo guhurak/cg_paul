@@ -8,6 +8,7 @@ class SurveysRoutes {
 
     server.get("/", surveys_controller.index)
     server.get("/:survey_id", surveys_controller.show)
+    server.patch("/:survey_id", surveys_controller.update)
     server.get("/:survey_id/edit", surveys_controller.edit)
     server.get("/new", surveys_controller.new)
     server.post("/", surveys_controller.create)

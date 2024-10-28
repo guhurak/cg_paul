@@ -62,16 +62,21 @@ class SurveyResponseRepository {
     let survey_responses_to_delete = []
     let new_responses = responses
 
+    console.log(survey_responses)
+    console.log(responses)
+
     for(const survey_response of survey_responses) {
       if (responses.includes(survey_response.response)) {
-        new_responses = new_responses.slice(new_responses.indexOf(survey_response.response))
+        new_responses.splice(new_responses.indexOf(survey_response.response), 1)
       } else {
         survey_responses_to_delete.push(survey_response.id)
       }
     }
 
     if (survey_responses_to_delete.length > 0) {
-      const query = pg_format("DELETE FROM survey_responses WHERE id IN %L", survey_responses_to_delete)
+      const query = pg_format("DELETE FROM survey_responses WHERE id IN (%L)", survey_responses_to_delete)
+      console.log(query)
+      console.log(survey_responses_to_delete)
       await this.database_client.query(query)
     }
 
