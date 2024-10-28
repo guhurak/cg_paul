@@ -10,7 +10,7 @@ class AuthController {
     }
 
     console.log(response.locals)
-    return response.view("auth/login", { title: "Login" })
+    return response.view("auth/login", { title: "Login", auth_uri: process.env.DISCORD_AUTH_URI })
   }
 
   logout(_request, response) {
