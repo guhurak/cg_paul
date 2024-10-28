@@ -8,7 +8,8 @@ async function user_role_middleware(request, response) {
   }
 
   if (!roles.includes(process.env.CEGOMOS_CITOYEN_ROLE)) {
-    response.view("public/unauthorized")
+    response.view("public/unauthorized", { title: "Unauthorized" })
+    return response
   }
 }
 
