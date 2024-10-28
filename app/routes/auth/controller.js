@@ -13,10 +13,10 @@ class AuthController {
     return response.view("auth/login", { title: "Login", auth_uri: process.env.DISCORD_AUTH_URI })
   }
 
-  logout(_request, response) {
-    response.clearCookie("access_token")
-    response.clearCookie("refresh_token")
-    response.clearCookie("roles")
+  logout(request, response) {
+    response.clearCookie("access_token", { domain: request.hostname, path: "/" })
+    response.clearCookie("refresh_token", { domain: request.hostname, path: "/" })
+    response.clearCookie("roles", { domain: request.hostname, path: "/" })
 
     return response.redirect("/auth/login")
   }
