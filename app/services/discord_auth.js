@@ -41,7 +41,7 @@ class DiscordAuth {
 
   async refresh_access_token(refresh_token) {
     const body = {
-      "grand_type": "refresh_token",
+      "grant_type": "refresh_token",
       "refresh_token": refresh_token
     }
 

@@ -25,7 +25,7 @@ async function auth_middleware(request, response) {
   }
 
   if (access_token == undefined) {
-    const tokens = await discord_service.refresh_token(refresh_token)
+    const tokens = await discord_service.refresh_access_token(refresh_token)
 
     response.setCookie("access_token", tokens.access_token, {
       path: "/",
